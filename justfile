@@ -6,6 +6,7 @@ kotlin_dir := "bindings/kotlin"
 swift_dir := "bindings/swift"
 python_dir := "bindings/python"
 lib_name := "libcdk_ffi"
+kotlin_example_dir := "kotlin-cdk-example"
 
 # Default command - show help
 default:
@@ -194,3 +195,87 @@ format-kotlin:
 quick-kotlin: build-debug
     cargo run --bin uniffi-bindgen generate --library target/debug/{{lib_name}}.so --language kotlin --out-dir {{kotlin_dir}} --no-format
     @echo "Quick Kotlin bindings generated in {{kotlin_dir}}/"
+
+# Build and run the Kotlin example project
+kotlin-example: build-kotlin
+    @echo "Building and running Kotlin CDK example..."
+    @if [ ! -d "{{kotlin_example_dir}}" ]; then \
+        echo "Error: {{kotlin_example_dir}} directory not found!"; \
+        echo "Make sure the Kotlin example project exists."; \
+        exit 1; \
+    fi
+    cd {{kotlin_example_dir}} && \
+    ([ -f gradlew ] || gradle wrapper --gradle-version 8.4) && \
+    ./gradlew build --quiet && \
+    echo "✅ Kotlin example built successfully" && \
+    echo "🚀 Running Kotlin example..." && \
+    ./gradlew run --console=plain
+
+# Build the Kotlin example project only
+kotlin-build: build-kotlin
+    @echo "Building Kotlin CDK example project..."
+    @if [ ! -d "{{kotlin_example_dir}}" ]; then \
+        echo "Error: {{kotlin_example_dir}} directory not found!"; \
+        echo "Make sure the Kotlin example project exists."; \
+        exit 1; \
+    fi
+    cd {{kotlin_example_dir}} && \
+    ([ -f gradlew ] || gradle wrapper --gradle-version 8.4) && \
+    ./gradlew build --quiet && \
+    echo "✅ Kotlin example built successfully"
+
+# Clean the Kotlin example project
+kotlin-clean:
+    @echo "Cleaning Kotlin CDK example project..."
+    @if [ -d "{{kotlin_example_dir}}" ]; then \
+        cd {{kotlin_example_dir}} && \
+        (./gradlew clean --quiet 2>/dev/null || echo "Gradle clean skipped") && \
+        echo "✅ Kotlin example cleaned"; \
+    else \
+        echo "{{kotlin_example_dir}} not found, nothing to clean"; \
+    fi
+
+# Run the Kotlin example without rebuilding
+kotlin-run:
+    @echo "Running Kotlin CDK example..."
+    @if [ ! -d "{{kotlin_example_dir}}" ]; then \
+        echo "Error: {{kotlin_example_dir}} directory not found!"; \
+        echo "Run 'just kotlin-example' to build and run."; \
+        exit 1; \
+    fi
+    cd {{kotlin_example_dir}} && ./gradlew run --console=plain
+
+# Test the Kotlin example project
+kotlin-test: build-kotlin
+    @echo "Testing Kotlin CDK example project..."
+    @if [ ! -d "{{kotlin_example_dir}}" ]; then \
+        echo "Error: {{kotlin_example_dir}} directory not found!"; \
+        exit 1; \
+    fi
+    cd {{kotlin_example_dir}} && \
+    ./gradlew test --quiet && \
+    echo "✅ Kotlin example tests passed"
+
+# Show Kotlin example project status
+kotlin-status:
+    @echo "Kotlin CDK Example Project Status:"
+    @echo "=================================="
+    @if [ -d "{{kotlin_example_dir}}" ]; then \
+        echo "✅ Project directory: {{kotlin_example_dir}}/"; \
+        echo "📁 Project structure:"; \
+        find {{kotlin_example_dir}} -type f \( -name "*.kt" -o -name "*.kts" -o -name "gradlew*" \) | head -10; \
+        echo ""; \
+        if [ -f "{{kotlin_example_dir}}/gradlew" ]; then \
+            echo "✅ Gradle wrapper found"; \
+        else \
+            echo "⚠️  Gradle wrapper not found (will be created automatically)"; \
+        fi; \
+        if [ -f "{{kotlin_dir}}/uniffi/cdk_ffi/cdk_ffi.kt" ]; then \
+            echo "✅ CDK bindings available"; \
+        else \
+            echo "❌ CDK bindings missing (run 'just build-kotlin' first)"; \
+        fi; \
+    else \
+        echo "❌ Project directory not found: {{kotlin_example_dir}}/"; \
+        echo "   Create the Kotlin example project first."; \
+    fi

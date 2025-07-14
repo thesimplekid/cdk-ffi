@@ -54,6 +54,7 @@
             
             # For Kotlin/Java bindings
             jdk
+            gradle
             ktlint
             
             # For testing and development
@@ -83,12 +84,15 @@
             echo "Rust version: $(rustc --version)"
             echo "Cargo version: $(cargo --version)"
             echo "Just version: $(just --version)"
+            echo "Gradle version: $(gradle --version | head -3)"
             echo ""
             echo "Available commands:"
             echo "  just --list                 - List all available just commands"
             echo "  just build                  - Build the project"
             echo "  just build-kotlin           - Build Kotlin bindings"
             echo "  just build-all-bindings     - Build all language bindings"
+            echo "  just kotlin-example         - Build and run Kotlin example"
+            echo "  just kotlin-build           - Build Kotlin example project"
             echo "  just test                   - Run tests"
             echo "  just lint                   - Run linter"
             echo "  just fmt                    - Format code"
@@ -100,9 +104,14 @@
             echo "  cargo fmt                   - Format code"
             echo "  cargo run --bin uniffi-bindgen - Generate UniFFI bindings"
             echo ""
+            echo "Kotlin example commands:"
+            echo "  cd kotlin-cdk-example && ./gradlew build   - Build Kotlin example"
+            echo "  cd kotlin-cdk-example && ./gradlew run     - Run Kotlin example"
+            echo ""
             echo "SQLite path: ${pkgs.sqlite.out}/lib"
             echo "OpenSSL path: ${pkgs.openssl.out}"
             echo "Protobuf compiler: ${pkgs.protobuf}/bin/protoc"
+            echo "Gradle path: $(which gradle)"
           '';
         };
 
