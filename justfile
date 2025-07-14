@@ -86,17 +86,35 @@ build-swift: build _create-dirs
     cp target/release/{{lib_name}}.so {{swift_dir}}/
     @echo "Swift bindings generated in {{swift_dir}}/"
 
+# Build Swift bindings for ARM64 (release)
+build-swift-arm64: build-arm64 _create-dirs
+    cargo run --bin uniffi-bindgen generate --library target/aarch64-unknown-linux-gnu/release/{{lib_name}}.so --language swift --out-dir {{swift_dir}}
+    cp target/aarch64-unknown-linux-gnu/release/{{lib_name}}.so {{swift_dir}}/
+    @echo "Swift bindings (ARM64) generated in {{swift_dir}}/"
+
 # Build Swift bindings without formatting (release)
 build-swift-no-format: build _create-dirs
     cargo run --bin uniffi-bindgen generate --library target/release/{{lib_name}}.so --language swift --out-dir {{swift_dir}} --no-format
     cp target/release/{{lib_name}}.so {{swift_dir}}/
     @echo "Swift bindings (no formatting) generated in {{swift_dir}}/"
 
+# Build Swift bindings for ARM64 without formatting (release)
+build-swift-arm64-no-format: build-arm64 _create-dirs
+    cargo run --bin uniffi-bindgen generate --library target/aarch64-unknown-linux-gnu/release/{{lib_name}}.so --language swift --out-dir {{swift_dir}} --no-format
+    cp target/aarch64-unknown-linux-gnu/release/{{lib_name}}.so {{swift_dir}}/
+    @echo "Swift bindings (ARM64, no formatting) generated in {{swift_dir}}/"
+
 # Build Swift bindings (debug)
 build-swift-debug: build-debug _create-dirs
     cargo run --bin uniffi-bindgen generate --library target/debug/{{lib_name}}.so --language swift --out-dir {{swift_dir}}
     cp target/debug/{{lib_name}}.so {{swift_dir}}/
     @echo "Swift bindings (debug) generated in {{swift_dir}}/"
+
+# Build Swift bindings for ARM64 (debug)
+build-swift-arm64-debug: build-arm64-debug _create-dirs
+    cargo run --bin uniffi-bindgen generate --library target/aarch64-unknown-linux-gnu/debug/{{lib_name}}.so --language swift --out-dir {{swift_dir}}
+    cp target/aarch64-unknown-linux-gnu/debug/{{lib_name}}.so {{swift_dir}}/
+    @echo "Swift bindings (ARM64, debug) generated in {{swift_dir}}/"
 
 # Build Swift bindings without formatting (debug)
 build-swift-debug-no-format: build-debug _create-dirs
@@ -123,6 +141,19 @@ build-all-bindings: build _create-dirs
     cp target/release/{{lib_name}}.so {{kotlin_dir}}/
     cp target/release/{{lib_name}}.so {{python_dir}}/
     @echo "All bindings generated:"
+    @echo "  Kotlin: {{kotlin_dir}}/"
+    @echo "  Swift: {{swift_dir}}/"
+    @echo "  Python: {{python_dir}}/"
+
+# Build all language bindings for ARM64 (release)
+build-all-bindings-arm64: build-arm64 _create-dirs
+    cargo run --bin uniffi-bindgen generate --library target/aarch64-unknown-linux-gnu/release/{{lib_name}}.so --language kotlin --out-dir {{kotlin_dir}}
+    cargo run --bin uniffi-bindgen generate --library target/aarch64-unknown-linux-gnu/release/{{lib_name}}.so --language swift --out-dir {{swift_dir}}
+    cargo run --bin uniffi-bindgen generate --library target/aarch64-unknown-linux-gnu/release/{{lib_name}}.so --language python --out-dir {{python_dir}}
+    cp target/aarch64-unknown-linux-gnu/release/{{lib_name}}.so {{swift_dir}}/
+    cp target/aarch64-unknown-linux-gnu/release/{{lib_name}}.so {{kotlin_dir}}/
+    cp target/aarch64-unknown-linux-gnu/release/{{lib_name}}.so {{python_dir}}/
+    @echo "All ARM64 bindings generated:"
     @echo "  Kotlin: {{kotlin_dir}}/"
     @echo "  Swift: {{swift_dir}}/"
     @echo "  Python: {{python_dir}}/"

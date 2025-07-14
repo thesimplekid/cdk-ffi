@@ -70,6 +70,12 @@
             jdk
             ktlint
             
+            # For Python bindings formatting
+            python3Packages.yapf
+            
+            # For Swift bindings formatting  
+            swiftformat
+            
             # For testing and development
             curl
             git
@@ -104,6 +110,9 @@
           SQLITE3_LIB_DIR_aarch64_unknown_linux_gnu = "${pkgsCrossAarch64.sqlite.out}/lib";
 
           shellHook = ''
+            # Add formatting tools to PATH
+            export PATH="${pkgs.python3Packages.yapf}/bin:${pkgs.swiftformat}/bin:$PATH"
+            
             echo "CDK FFI Development Environment"
             echo "Rust version: $(rustc --version)"
             echo "Cargo version: $(cargo --version)"
@@ -112,6 +121,11 @@
             echo ""
             echo "Cross-compilation targets available:"
             echo "  - aarch64-unknown-linux-gnu (ARM64 Linux)"
+            echo ""
+            echo "Formatting tools available:"
+            echo "  - yapf: $(which yapf 2>/dev/null || echo 'not found')"
+            echo "  - swiftformat: $(which swiftformat 2>/dev/null || echo 'not found')"
+            echo "  - ktlint: $(which ktlint 2>/dev/null || echo 'not found')"
             echo ""
             echo "Available commands:"
             echo "  just --list                 - List all available just commands"
