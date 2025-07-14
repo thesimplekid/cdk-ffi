@@ -16,9 +16,17 @@ default:
 build:
     cargo build --release
 
+# Build the Rust library for ARM64 in release mode
+build-arm64:
+    cargo build --target=aarch64-unknown-linux-gnu --release
+
 # Build the Rust library in debug mode
 build-debug:
     cargo build
+
+# Build the Rust library for ARM64 in debug mode
+build-arm64-debug:
+    cargo build --target=aarch64-unknown-linux-gnu
 
 # Run tests
 test:
@@ -51,6 +59,11 @@ _create-dirs:
 build-kotlin: build _create-dirs
     cargo run --bin uniffi-bindgen generate --library target/release/{{lib_name}}.so --language kotlin --out-dir {{kotlin_dir}}
     @echo "Kotlin bindings generated in {{kotlin_dir}}/"
+
+# Build Kotlin bindings for ARM64 (release)
+build-kotlin-arm64: build-arm64 _create-dirs
+    cargo run --bin uniffi-bindgen generate --library target/aarch64-unknown-linux-gnu/release/{{lib_name}}.so --language kotlin --out-dir {{kotlin_dir}}
+    @echo "Kotlin bindings (ARM64) generated in {{kotlin_dir}}/"
 
 # Build Kotlin bindings without formatting (release)
 build-kotlin-no-format: build _create-dirs

@@ -568,7 +568,6 @@ dependencies = [
  "anyhow",
  "bip39",
  "cdk",
- "cdk-common",
  "cdk-sqlite",
  "futures",
  "rand 0.8.5",

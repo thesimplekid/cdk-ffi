@@ -2,13 +2,14 @@ use std::collections::HashMap;
 use std::sync::Arc;
 
 use cdk::amount::SplitTarget;
+use cdk::cdk_database::WalletDatabase;
 use cdk::nuts::nut00::ProofsMethods;
 use cdk::nuts::{CurrencyUnit, MintQuoteState};
-use cdk::wallet::{PreparedSend, SendMemo, SendOptions, Wallet as CdkWallet};
-use cdk::Amount;
-use cdk_common::common::Melted;
-use cdk_common::database::WalletDatabase;
-use cdk_common::wallet::{MeltQuote, MintQuote, SendKind};
+use cdk::types::Melted;
+use cdk::wallet::{
+    MeltQuote, MintQuote, PreparedSend, SendKind, SendMemo, SendOptions, Wallet as CdkWallet,
+};
+use cdk::{cdk_database, Amount};
 
 use bip39::Mnemonic;
 use tokio::runtime::Runtime;
@@ -58,8 +59,8 @@ impl From<cdk::error::Error> for FFIError {
     }
 }
 
-impl From<cdk_common::database::Error> for FFIError {
-    fn from(err: cdk_common::database::Error) -> Self {
+impl From<cdk_database::Error> for FFIError {
+    fn from(err: cdk_database::Error) -> Self {
         FFIError::WalletError {
             msg: err.to_string(),
         }
@@ -381,7 +382,7 @@ impl From<FFICurrencyUnit> for CurrencyUnit {
 
 #[derive(uniffi::Object)]
 pub struct FFILocalStore {
-    inner: Arc<dyn WalletDatabase<Err = cdk_common::database::Error> + Send + Sync>,
+    inner: Arc<dyn WalletDatabase<Err = cdk_database::Error> + Send + Sync>,
 }
 
 #[uniffi::export]

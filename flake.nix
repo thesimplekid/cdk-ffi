@@ -15,9 +15,18 @@
           inherit system overlays;
         };
         
-        # Use the latest stable Rust version
+        # Cross-compilation setup
+        pkgsCrossAarch64 = import nixpkgs {
+          inherit system overlays;
+          crossSystem = {
+            config = "aarch64-unknown-linux-gnu";
+          };
+        };
+        
+        # Use the latest stable Rust version with ARM64 target
         rustToolchain = pkgs.rust-bin.stable.latest.default.override {
           extensions = [ "rust-src" "clippy" "rustfmt" ];
+          targets = [ "aarch64-unknown-linux-gnu" ];
         };
       in
       {
@@ -35,6 +44,11 @@
             # Build tools
             cmake
             gcc
+            
+            # Cross-compilation tools for ARM64
+            pkgsCrossAarch64.stdenv.cc
+            pkgsCrossAarch64.openssl.dev
+            pkgsCrossAarch64.sqlite.dev
             
             # Development tools
             rust-analyzer
@@ -54,7 +68,6 @@
             
             # For Kotlin/Java bindings
             jdk
-            gradle
             ktlint
             
             # For testing and development
@@ -79,12 +92,26 @@
           PROTOC = "${pkgs.protobuf}/bin/protoc";
           PROTOC_INCLUDE = "${pkgs.protobuf}/include";
 
+          # Cross-compilation environment variables for ARM64
+          CC_aarch64_unknown_linux_gnu = "${pkgsCrossAarch64.stdenv.cc}/bin/aarch64-unknown-linux-gnu-gcc";
+          CXX_aarch64_unknown_linux_gnu = "${pkgsCrossAarch64.stdenv.cc}/bin/aarch64-unknown-linux-gnu-g++";
+          AR_aarch64_unknown_linux_gnu = "${pkgsCrossAarch64.stdenv.cc}/bin/aarch64-unknown-linux-gnu-ar";
+          CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER = "${pkgsCrossAarch64.stdenv.cc}/bin/aarch64-unknown-linux-gnu-gcc";
+          PKG_CONFIG_ALLOW_CROSS = "1";
+          OPENSSL_DIR_aarch64_unknown_linux_gnu = "${pkgsCrossAarch64.openssl.dev}";
+          OPENSSL_LIB_DIR_aarch64_unknown_linux_gnu = "${pkgsCrossAarch64.openssl.out}/lib";
+          SQLITE3_INCLUDE_DIR_aarch64_unknown_linux_gnu = "${pkgsCrossAarch64.sqlite.dev}/include";
+          SQLITE3_LIB_DIR_aarch64_unknown_linux_gnu = "${pkgsCrossAarch64.sqlite.out}/lib";
+
           shellHook = ''
             echo "CDK FFI Development Environment"
             echo "Rust version: $(rustc --version)"
             echo "Cargo version: $(cargo --version)"
             echo "Just version: $(just --version)"
             echo "Gradle version: $(gradle --version | head -3)"
+            echo ""
+            echo "Cross-compilation targets available:"
+            echo "  - aarch64-unknown-linux-gnu (ARM64 Linux)"
             echo ""
             echo "Available commands:"
             echo "  just --list                 - List all available just commands"
@@ -103,6 +130,10 @@
             echo "  cargo clippy                - Run linter"
             echo "  cargo fmt                   - Format code"
             echo "  cargo run --bin uniffi-bindgen - Generate UniFFI bindings"
+            echo ""
+            echo "Cross-compilation commands:"
+            echo "  cargo build --target=aarch64-unknown-linux-gnu - Build for ARM64 Linux"
+            echo "  cargo build --target=aarch64-unknown-linux-gnu --release - Build ARM64 release"
             echo ""
             echo "Kotlin example commands:"
             echo "  cd kotlin-cdk-example && ./gradlew build   - Build Kotlin example"
