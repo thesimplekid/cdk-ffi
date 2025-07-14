@@ -12,9 +12,9 @@ name = "uniffi-bindgen"
 path = "bin/uniffi-bindgen.rs"
 
 [dependencies]
-cdk = { version = "0.11.0", features = ["wallet"] }
-cdk-sqlite = { version = "0.11.0", features = ["wallet"] }
-cdk-common = { version = "0.11.0", features = ["wallet"] }
+cdk = { version = "0.11.0", default-features = false, features = ["wallet"] }
+cdk-sqlite = { version = "0.11.0", default-features = false, features = ["wallet"] }
+cdk-common = { version = "0.11.0", default-features = false, features = ["wallet"] }
 uniffi = { version = "=0.28.3", features = ["cli"] }
 uniffi_bindgen = { version = "=0.28.3" }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
@@ -25,7 +25,8 @@ url = "2"
 futures = "0.3"
 anyhow = "1"
 uuid = { version = "1.0", features = ["v4"] }
-bip39 = "2.0"
+bip39 = { version = "2.0", features = ["rand"] }
+
 
 [dev-dependencies]
 uniffi = { version = "=0.28.3", features = ["bindgen-tests"] }

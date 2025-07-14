@@ -13,6 +13,32 @@ target/
 # Contains mutation testing data
 **/mutants.out*/
 
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Swift
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+DerivedData/
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+build/
+.build/
+
+# Kotlin
+*.class
+*.jar
+*.war
+*.ear
+*.kotlin_module
+.gradle/
+build/
+local.properties
+
 # RustRover
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore

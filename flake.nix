@@ -46,6 +46,8 @@
             python3
             python3Packages.pip
             python3Packages.setuptools
+            python3Packages.requests
+            python3Packages.urllib3
             
             # For Swift bindings (if needed)
             # swift # Uncomment if generating Swift bindings
