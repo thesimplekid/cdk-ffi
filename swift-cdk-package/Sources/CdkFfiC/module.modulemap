@@ -1,0 +1,5 @@
+module CdkFfiC {
+    header "cdk_ffiFFI.h"
+    link "cdk_ffi"
+    export *
+}
