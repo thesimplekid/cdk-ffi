@@ -1,0 +1,91 @@
+<resources>
+    <string name="app_name">CDK Wallet Demo</string>
+    
+    <!-- Main Activity -->
+    <string name="balance_label">Balance</string>
+    <string name="send_button">Send</string>
+    <string name="receive_button">Receive</string>
+    <string name="refresh_button">Refresh</string>
+    <string name="reset_wallet_button">Reset Wallet</string>
+    <string name="mint_url_label">Mint URL</string>
+    <string name="mnemonic_label">Mnemonic (Backup)</string>
+    
+    <!-- Send Activity -->
+    <string name="send_tokens_title">Send Cashu Tokens</string>
+    <string name="pay_lightning_title">Pay Lightning Invoice</string>
+    <string name="amount_hint">Amount (sats)</string>
+    <string name="memo_hint">Memo (optional)</string>
+    <string name="invoice_hint">Lightning Invoice</string>
+    <string name="prepare_send_button">Prepare Send</string>
+    <string name="send_tokens_button">Send Tokens</string>
+    <string name="scan_qr_button">Scan QR</string>
+    <string name="pay_invoice_button">Pay Invoice</string>
+    
+    <!-- Receive Activity -->
+    <string name="receive_title">Receive Lightning Payment</string>
+    <string name="receive_description">Create a Lightning invoice to receive payments.</string>
+    <string name="description_hint">Description (optional)</string>
+    <string name="create_invoice_button">Create Lightning Invoice</string>
+    <string name="check_status_button">Check Status</string>
+    <string name="mint_tokens_button">Mint Tokens</string>
+    <string name="quote_info_title">Quote Information</string>
+    
+    <!-- QR Code Activity -->
+    <string name="qr_code_title">QR Code</string>
+    <string name="copy_button">Copy</string>
+    <string name="share_button">Share</string>
+    <string name="data_label">Data</string>
+    
+    <!-- Toast Messages -->
+    <string name="wallet_initialized">Wallet initialized successfully</string>
+    <string name="wallet_not_initialized">Wallet not initialized</string>
+    <string name="balance_updated">Balance updated</string>
+    <string name="wallet_reset">Wallet reset successfully</string>
+    <string name="invalid_amount">Please enter a valid amount</string>
+    <string name="enter_amount">Please enter an amount</string>
+    <string name="enter_invoice">Please enter a Lightning invoice</string>
+    <string name="tokens_sent">Tokens sent successfully!</string>
+    <string name="invoice_paid">Invoice paid successfully!</string>
+    <string name="quote_paid">Quote has been paid! You can now mint tokens.</string>
+    <string name="tokens_minted">Successfully minted %d sats!</string>
+    <string name="payment_received">Payment received! You can now mint tokens.</string>
+    <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="scan_cancelled">Scan cancelled</string>
+    <string name="camera_permission_required">Camera permission required for scanning</string>
+    <string name="scanned_data_copied">Scanned data copied to clipboard</string>
+    
+    <!-- Instructions -->
+    <string name="receive_instructions">Instructions:\n1. Enter amount and create invoice\n2. Share the QR code for payment\n3. Wait for payment confirmation\n4. Mint tokens to your wallet</string>
+    <string name="footer_text">CDK FFI Demo Wallet\nBeta Version</string>
+    
+    <!-- Error Messages -->
+    <string name="error_prefix">Error: %s</string>
+    <string name="wallet_error_prefix">Wallet error: %s</string>
+    <string name="failed_to_initialize">Failed to initialize wallet: %s</string>
+    <string name="failed_to_refresh">Failed to refresh: %s</string>
+    <string name="failed_to_reset">Failed to reset wallet: %s</string>
+    <string name="failed_to_create_quote">Failed to create mint quote</string>
+    <string name="failed_to_prepare_send">Failed to prepare send</string>
+    <string name="failed_to_send_tokens">Failed to send tokens</string>
+    <string name="failed_to_pay_invoice">Failed to pay invoice</string>
+    <string name="failed_to_create_melt_quote">Failed to create payment quote</string>
+    <string name="failed_to_check_quote">Failed to check quote status</string>
+    <string name="failed_to_mint_tokens">Failed to mint tokens</string>
+    <string name="qr_code_generation_error">Error generating QR code: %s</string>
+    
+    <!-- Status Messages -->
+    <string name="wallet_ready">Wallet Ready</string>
+    <string name="wallet_loading">Loading...</string>
+    <string name="wallet_uninitialized">Wallet not initialized</string>
+    <string name="waiting_for_payment">⏳ Waiting for payment...</string>
+    <string name="quote_paid_status">✅ Quote paid! Ready to mint tokens.</string>
+    <string name="tokens_already_minted">✅ Tokens already minted.</string>
+    <string name="quote_unpaid">Quote is still unpaid. Please pay the Lightning invoice.</string>
+    <string name="tokens_already_issued">Tokens already minted for this quote.</string>
+    
+    <!-- Default Values -->
+    <string name="default_balance">0 sats</string>
+    <string name="default_mint_url">No mint connected</string>
+    <string name="default_mnemonic">No mnemonic</string>
+    <string name="unknown_balance">Balance: Unknown</string>
+</resources>
