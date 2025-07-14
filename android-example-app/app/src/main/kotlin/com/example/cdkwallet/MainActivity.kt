@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: WalletViewModel by viewModels { 
-        WalletViewModel.createFactory(application) 
+        WalletViewModel.Factory(application) 
     }
     
     override fun onCreate(savedInstanceState: Bundle?) {

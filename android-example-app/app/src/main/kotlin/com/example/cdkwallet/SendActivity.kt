@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 class SendActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySendBinding
     private val viewModel: WalletViewModel by viewModels { 
-        WalletViewModel.createFactory(application) 
+        WalletViewModel.Factory(application) 
     }
     
     override fun onCreate(savedInstanceState: Bundle?) {

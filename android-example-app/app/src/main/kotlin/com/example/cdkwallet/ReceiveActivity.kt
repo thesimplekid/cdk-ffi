@@ -15,7 +15,7 @@ import uniffi.cdk_ffi.FfiMintQuoteState
 class ReceiveActivity : AppCompatActivity() {
     private lateinit var binding: ActivityReceiveBinding
     private val viewModel: WalletViewModel by viewModels { 
-        WalletViewModel.createFactory(application) 
+        WalletViewModel.Factory(application) 
     }
     
     private var currentQuoteId: String? = null

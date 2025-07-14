@@ -280,16 +280,13 @@ class WalletViewModel(application: Application) : AndroidViewModel(application) 
         localStore?.destroy()
     }
     
-    @Suppress("UNCHECKED_CAST")
     class Factory(private val application: Application) : ViewModelProvider.Factory {
+        @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return WalletViewModel(application) as T
-        }
-    }
-    
-    companion object {
-        fun createFactory(application: Application): Factory {
-            return Factory(application)
+            if (modelClass.isAssignableFrom(WalletViewModel::class.java)) {
+                return WalletViewModel(application) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
         }
     }
 }
