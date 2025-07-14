@@ -1,0 +1,4 @@
+module cdk_ffiFFI {
+    header "cdk_ffiFFI.h"
+    export *
+}
