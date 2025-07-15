@@ -7,7 +7,8 @@ use cdk::nuts::nut00::ProofsMethods;
 use cdk::nuts::{CurrencyUnit, MintQuoteState};
 use cdk::types::Melted;
 use cdk::wallet::{
-    MeltQuote, MintQuote, PreparedSend, SendKind, SendMemo, SendOptions, Wallet as CdkWallet,
+    MeltQuote, MintQuote, PreparedSend, ReceiveOptions, SendKind, SendMemo, SendOptions,
+    Wallet as CdkWallet,
 };
 use cdk::{cdk_database, Amount};
 
@@ -601,6 +602,17 @@ impl FFIWallet {
     pub fn melt(&self, quote_id: String) -> Result<FFIMelted> {
         self.runtime.block_on(async {
             let result = self.inner.melt(&quote_id).await?;
+            Ok(result.into())
+        })
+    }
+
+    /// Receive token
+    pub fn receive(&self, token: &str) -> Result<FFIAmount> {
+        self.runtime.block_on(async {
+            let result = self
+                .inner
+                .receive(&token, ReceiveOptions::default())
+                .await?;
             Ok(result.into())
         })
     }
